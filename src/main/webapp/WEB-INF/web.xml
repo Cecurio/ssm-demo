@@ -20,17 +20,32 @@
     <listener>
         <listener-class>cn.cecurio.listeners.ContextListener</listener-class>
     </listener>
+
     <!-- 顺序读取Listener -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+    <!--测试init-param context-param的加载与作用域-->
+    <servlet>
+        <servlet-name>testServlet</servlet-name>
+        <servlet-class>cn.cecurio.servlet.TestServlet</servlet-class>
+        <init-param>
+            <param-name>myEnglishName</param-name>
+            <param-value>Cecurio</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>testServlet</servlet-name>
+        <url-pattern>/param.action</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>ssm-demo-springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-servlet.xml</param-value>
+            <param-value>classpath:spring-servlet.xml,classpath:applicationContext.xml,classpath:spring-service.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
