@@ -10,4 +10,5 @@ import java.util.List;
  **/
 public interface UserDao {
     List<UserEntity> selectAll() throws Exception;
+    int addOne(UserEntity userEntity) throws Exception;
 }

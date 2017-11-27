@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cecurio.dao.SsmMessageMapper">
+
+    <resultMap id="BaseResultMap" type="cn.cecurio.entity.SsmMessage">
+        <id column="message_id" property="messageId" jdbcType="INTEGER"/>
+        <result column="message_title" property="messageTitle" jdbcType="VARCHAR"/>
+        <result column="active_status" property="activeStatus" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithBLOBs" type="cn.cecurio.entity.SsmMessage" extends="BaseResultMap">
+        <result column="message_body" property="messageBody" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+      message_id, message_title, active_status, create_time, last_modify_time
+    </sql>
+
+    <sql id="Blob_Column_List">
+      message_body
+    </sql>
+
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="cn.cecurio.entity.SsmMessageExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from ssm_message
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cecurio.entity.SsmMessageExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from ssm_message
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from ssm_message
+        where message_id = #{messageId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ssm_message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="cn.cecurio.entity.SsmMessageExample">
+        delete from ssm_message
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.cecurio.entity.SsmMessage">
+    insert into ssm_message (message_id, message_title, active_status, 
+      create_time, last_modify_time, message_body
+      )
+    values (#{messageId,jdbcType=INTEGER}, #{messageTitle,jdbcType=VARCHAR}, #{activeStatus,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP}, #{messageBody,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="cn.cecurio.entity.SsmMessage">
+        insert into ssm_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="messageId != null">
+                message_id,
+            </if>
+            <if test="messageTitle != null">
+                message_title,
+            </if>
+            <if test="activeStatus != null">
+                active_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time,
+            </if>
+            <if test="messageBody != null">
+                message_body,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="messageId != null">
+                #{messageId,jdbcType=INTEGER},
+            </if>
+            <if test="messageTitle != null">
+                #{messageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="activeStatus != null">
+                #{activeStatus,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifyTime != null">
+                #{lastModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="messageBody != null">
+                #{messageBody,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.cecurio.entity.SsmMessageExample" resultType="java.lang.Integer">
+        select count(*) from ssm_message
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update ssm_message
+        <set>
+            <if test="record.messageId != null">
+                message_id = #{record.messageId,jdbcType=INTEGER},
+            </if>
+            <if test="record.messageTitle != null">
+                message_title = #{record.messageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="record.activeStatus != null">
+                active_status = #{record.activeStatus,jdbcType=BIT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.lastModifyTime != null">
+                last_modify_time = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.messageBody != null">
+                message_body = #{record.messageBody,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update ssm_message
+        set message_id = #{record.messageId,jdbcType=INTEGER},
+        message_title = #{record.messageTitle,jdbcType=VARCHAR},
+        active_status = #{record.activeStatus,jdbcType=BIT},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        last_modify_time = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+        message_body = #{record.messageBody,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update ssm_message
+        set message_id = #{record.messageId,jdbcType=INTEGER},
+        message_title = #{record.messageTitle,jdbcType=VARCHAR},
+        active_status = #{record.activeStatus,jdbcType=BIT},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        last_modify_time = #{record.lastModifyTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.cecurio.entity.SsmMessage">
+        update ssm_message
+        <set>
+            <if test="messageTitle != null">
+                message_title = #{messageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="activeStatus != null">
+                active_status = #{activeStatus,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="messageBody != null">
+                message_body = #{messageBody,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where message_id = #{messageId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.cecurio.entity.SsmMessage">
+    update ssm_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      active_status = #{activeStatus,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      message_body = #{messageBody,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="cn.cecurio.entity.SsmMessage">
+    update ssm_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      active_status = #{activeStatus,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+</mapper>

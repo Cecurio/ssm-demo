@@ -16,7 +16,8 @@
     <context:component-scan base-package="cn.cecurio.config"/>
 
     <!--3. 默认的注解映射的支持-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven />
+
     <!--4. 视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
@@ -26,18 +27,28 @@
     <!-- 对请求路径做处理 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
-            <util:list id="beanList">
-                <ref bean="mappingJacksonHttpMessageConverter" />
-            </util:list>
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+                <ref bean="stringHttpMessage"/>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            </list>
         </property>
     </bean>
 
     <!--jackson转换-->
-    <bean id="mappingJacksonHttpMessageConverter"
-          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
-                <value>text/html;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 从请求和响应读取/编写字符串 -->
+    <bean id="stringHttpMessage" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
             </list>
         </property>
     </bean>

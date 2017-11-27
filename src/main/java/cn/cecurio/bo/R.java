@@ -30,24 +30,27 @@ public class R {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public R setCode(Integer code) {
         this.code = code;
+        return this;
     }
 
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public R setMsg(String msg) {
         this.msg = msg;
+        return this;
     }
 
     public Map<String, Object> getData() {
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public R setData(Map<String, Object> data) {
         this.data = data;
+        return this;
     }
 
     public static R ok() {
@@ -59,9 +62,12 @@ public class R {
     }
 
     public static R notFound() {
-        return new R(500,"404 Not Found！");
+        return new R(404,"404 Not Found！");
     }
 
+    public static R badRequest() {
+        return new R(400,"Bad request！");
+    }
     public R putData(String key, Object value) {
         if (this.data == null) {
             this.data = new HashMap<>();

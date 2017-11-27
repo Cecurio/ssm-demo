@@ -1,0 +1,7 @@
+abcdefghijklmn
+opqrstuvqxyz
+1234567890
+ABCDEFGHIJKLMN
+OPQRSTUVWXYZ
+CLOB表示大文本数据，MySQL中提供了LONGTEXT表示大文本数据，此字段最大保存数据量4G。
+

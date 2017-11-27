@@ -1,6 +1,7 @@
 package cn.cecurio.service;
 
 import cn.cecurio.bo.R;
+import cn.cecurio.entity.UserEntity;
 
 /**
  * @author: Cecurio
@@ -8,4 +9,5 @@ import cn.cecurio.bo.R;
  **/
 public interface UserService {
     R selectAll();
+    R addOne(UserEntity userEntity);
 }

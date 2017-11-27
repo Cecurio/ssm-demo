@@ -23,10 +23,21 @@ public class UserServiceImpl implements UserService {
     public R selectAll() {
         List<UserEntity> userEntities = null;
         try {
-            userEntities  = userDao.selectAll();
+            userEntities = userDao.selectAll();
         } catch (Exception e) {
             return R.serverInternalError();
         }
-        return R.ok().putData("users",userEntities).putData("now",new Date());
+        return R.ok().putData("users", userEntities).putData("now", new Date());
+    }
+
+    @Override
+    public R addOne(UserEntity userEntity) {
+        int affectedRows = 0;
+        try {
+            affectedRows = userDao.addOne(userEntity);
+        } catch (Exception e) {
+            return R.serverInternalError().setMsg("操作失败!");
+        }
+        return R.ok().putData("affectedRows", affectedRows).putData("userId", userEntity.getUserId());
     }
 }

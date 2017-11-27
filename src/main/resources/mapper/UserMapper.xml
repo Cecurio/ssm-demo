@@ -8,9 +8,17 @@
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="passwd" jdbcType="VARCHAR" property="passwd"/>
+        <!-- 保存日期、时间信息，必须使用TIMESTAMP -->
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="active_status" jdbcType="TINYINT" property="activeStatus"/>
     </resultMap>
 
     <select id="selectAll" resultMap="UserResult" >
-        select user_id,username,passwd from ssm_user
+        select user_id,username,passwd,create_time,active_status from ssm_user
     </select>
+
+    <!-- useGeneratedKeys="true" keyProperty="userId" 指明主键,返回自增的ID-->
+    <insert id="addOne" parameterType="cn.cecurio.entity.UserEntity" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO ssm_user (username,passwd,create_time,active_status) VALUES (#{username},#{passwd},#{createTime},#{activeStatus});
+    </insert>
 </mapper>
